@@ -1,11 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import TardaremosTanto from '../views/TardaremosTanto.vue';
+import RespuestaFinal from '../views/RespuestaFinal.vue';
+import NotFound from '../components/NotFound.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/tardaremos_tanto',
+    name: 'TardaremosTanto',
+    component: TardaremosTanto,
+  },
+  {
+    path: '/respuesta_final',
+    name: 'RespuestaFinal',
+    component: RespuestaFinal,
   },
   {
     path: '/about',
@@ -15,6 +28,13 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
+  // pathMatch is the name of the param, e.g., going to /not/found yields
+  // { params: { pathMatch: ['not', 'found'] }}
+  // this is thanks to the last *, meaning repeated params and it is necessary if you
+  // plan on directly navigating to the not-found route using its name
+  { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
+  // if you omit the last `*`, the `/` character in params will be encoded when resolving or pushing
+  { path: '/:pathMatch(.*)', name: 'bad-not-found', component: NotFound },
 ];
 
 const router = createRouter({
