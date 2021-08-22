@@ -15,11 +15,8 @@
 
 <style scoped>
 .about {
-  color: #fff;
-  background-color: #0099eb;
-  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-  border: solid white 9px;
+  color: #000;
+  background-color: white;
   margin: 1rem;
 }
-
 </style>

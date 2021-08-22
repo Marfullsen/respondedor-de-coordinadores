@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import HomePage from '../views/HomePage.vue';
 import TardaremosTanto from '../views/TardaremosTanto.vue';
 import RespuestaFinal from '../views/RespuestaFinal.vue';
 import NotFound from '../components/NotFound.vue';
@@ -7,8 +7,8 @@ import NotFound from '../components/NotFound.vue';
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'HomePage',
+    component: HomePage,
   },
   {
     path: '/tardaremos_tanto',
@@ -22,11 +22,11 @@ const routes = [
   },
   {
     path: '/about',
-    name: 'About',
+    name: 'AboutMe',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutMe.vue'),
   },
   // pathMatch is the name of the param, e.g., going to /not/found yields
   // { params: { pathMatch: ['not', 'found'] }}

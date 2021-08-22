@@ -28,3 +28,8 @@ npm run lint
 
 ### Personalizar configuración
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Recursos
+- Instalar fuentes manualmente en Vue-CLI [https://reactgo.com/add-fonts-vue-app/](https://reactgo.com/add-fonts-vue-app/)
+- Inspeccionar archivos de fuentes online [https://fontdrop.info/](https://fontdrop.info/)
+- Simple-Line-Icons

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>The page you are looking for can't be reached.</h1>
-    <h2>Ecosystem</h2>
+    <h2>Not Found!</h2>
     <ul>
       <li>Not Found!</li>
       <li>Not Found!</li>
