@@ -40,19 +40,39 @@
       <input type="text" v-model="agenteSeleccionado">
     </article>
     <hr>
-    <article style="text-align:center;">
+    <article style="display: flex; align-items: center; flex-direction: column;">
       <h1>Primera respuesta</h1>
-      <div id='textToBeCopied'
-      style="display: flex; justify-content: center;">
-        <pre
-          @click="selectText('textToBeCopied')"
-          style="width: 80%;
-          border: 1px solid #ccc; text-align: start; padding: 1rem; white-space: pre-wrap;"
-          contentEditable="true"
-          >{{primer_mensaje}}<br><br><br><img src="@/assets/robot_soporte_tipu.png"></pre>
+      <div id='textToBeCopied'  @dblclick="selectText('textToBeCopied')"
+        style="min-height: 332px; text-align: initial; width: 80%;
+        padding: 5px;"
+        class="fr-element fr-view" dir="ltr"
+        contenteditable="true" aria-disabled="false" role="textbox" aria-multiline="true"
+        spellcheck="true">
+        <div dir="ltr">
+          <p><span style="color: rgb(51, 51, 51);
+            font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+            Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif, -apple-system,
+            BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;,
+            Arial, sans-serif; font-size: 16.6667px; text-align: center;"
+            dir="ltr">{{mensaje.estimado}}&ZeroWidthSpace;<br><br><br>
+            {{mensaje.recibimos}}{{mensaje.vinculada}}{{mensaje.trabajaremos}}<br><br><br>
+            {{mensaje.atte}}<br>{{mensaje.agente}}
+            <br><br><br></span>
+          </p>
+        </div>
+        <div dir="ltr">
+          <p>
+            <img src="https://drive.google.com/uc?id=1tPhcDo46m4ZX6X3cYwQd-molDnAYaxts&export=download"
+            style="width: auto;" class="fr-fil fr-dib"
+            data-attachment="[object Object]" data-id="64011263237">
+          </p>
+        </div>
       </div>
+      <span style="display:none;">{{hasen}}</span>
       <br>
-      <button @click="copyToClipboard()"><span class="icon-docs"></span> Copiar</button>
+      <button @click="copyToClipboard('textToBeCopied')">
+        <span class="icon-docs"></span> Copiar
+      </button>
     </article>
   </div>
 </template>
@@ -78,7 +98,15 @@ export default {
         Otro: 'o',
         Otra: 'a',
       },
-      mensaje: 'a',
+      mensaje: {
+        genero: '',
+        estimado: '',
+        recibimos: 'Hemos recibido su solicitud',
+        vinculada: '',
+        trabajaremos: ', trabajaremos en la carga.',
+        atte: 'Atentamente',
+        agente: '',
+      },
     };
   },
   methods: {
@@ -93,18 +121,8 @@ export default {
         }
       }
     },
-    copyToClipboard() {
-      // const copyText = document.getElementById('textToBecopied').textContent;
-      // const textArea = document.createElement('textarea');
-      // textArea.textContent = copyText;
-      // document.body.append(textArea);
-      // textArea.select();
-      // document.execCommand('copy');
-      // a
-      // const copyText = document.getElementById('textToBeCopied').innerHTML;
-      // navigator.clipboard.writeText(copyText);
-      document.execCommand('copy');
-      alert('Copiado');
+    copyToClipboard(divToBeCopied) {
+      this.selectText(divToBeCopied);
     },
     selectText(containerid) {
       if (document.selection) { // IE
@@ -120,15 +138,22 @@ export default {
       document.execCommand('copy');
       alert('Copiado');
     },
+    first_message() {
+      this.mensaje.genero = this.coordinadores[this.coordinadorSeleccionado] || this.genero;
+      this.mensaje.estimado = `Estimad${this.mensaje.genero} ${this.coordinadorSeleccionado}`;
+      this.mensaje.recibimos = 'Hemos recibido su solicitud';
+      this.mensaje.vinculada = this.inputNumPedido ? ` vinculada al pedido N°${this.inputNumPedido}` : '';
+      this.mensaje.trabajaremos = `, trabajaremos en la carga y tendrá un tiempo estimado de ${this.inputMinutos} minutos.`;
+      this.mensaje.atte = 'Atentamente';
+      this.mensaje.agente = `${this.agenteSeleccionado}, soporte TIPU`;
+    },
   },
   computed: {
-    primer_mensaje() {
-      const generoCoordinador = this.coordinadores[this.coordinadorSeleccionado];
-      const genero = generoCoordinador || this.genero;
-      if (this.inputNumPedido === '') {
-        return `Estimad${genero} ${this.coordinadorSeleccionado}\n\n\nHemos recibido su solicitud, trabajaremos en la carga y tendrá un tiempo estimado de ${this.inputMinutos} minutos.\n\n\nAtentamente\n${this.agenteSeleccionado}, soporte TIPU`;
-      }
-      return `Estimad${genero} ${this.coordinadorSeleccionado}\n\n\nHemos recibido su solicitud vinculada al pedido N°${this.inputNumPedido}, trabajaremos en la carga y tendrá un tiempo estimado de ${this.inputMinutos} minutos.\n\n\nAtentamente\n${this.agenteSeleccionado}, soporte TIPU`;
+    obtenerGenero() {
+      return this.coordinadores[this.coordinadorSeleccionado] || this.genero;
+    },
+    hasen() {
+      return this.first_message();
     },
   },
 };

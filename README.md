@@ -4,7 +4,15 @@
   <img src="https://img.shields.io/badge/Vue--CLI-4.5.13-brightgreen.svg" alt="vue">
 </a>
 
+## ¿Qué es esto?
 Generador del cuerpo del mensaje que se le responderá a cada coordinador.
+
+## Cosas por agregar.
+- Añadir omponentes.
+- Cambiar la posición del botón copiar en "Tardaremos tanto".
+- Terminar otras vistas.
+- Click en label pedido lee portapapeles, si hay número, lo pega en número de pedido.
+- Click en label minutos borra los minutos por defecto y expande opciones de minutos.
 
 ## Instalación del proyecto
 ```
@@ -33,3 +41,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - Instalar fuentes manualmente en Vue-CLI [https://reactgo.com/add-fonts-vue-app/](https://reactgo.com/add-fonts-vue-app/)
 - Inspeccionar archivos de fuentes online [https://fontdrop.info/](https://fontdrop.info/)
 - Simple-Line-Icons
+
+<img src="./docs/img/robot_soporte_tipu.png" alt="vue">
