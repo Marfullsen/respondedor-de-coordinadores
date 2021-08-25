@@ -11,6 +11,9 @@
 <style>
 body {
   margin: 0;
+  background-color: #34a8ff;
+  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+  height: 100%;
 }
 
 #app {
@@ -19,9 +22,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #34a8ff;
-  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-  height: 100vh;
 }
 
 #nav {

@@ -22,7 +22,7 @@
     <hr>
     <article>
       <h1>Hemos recibido su solicitud</h1>
-      <label for="numPedidoInput">N° Pedido: </label>
+      <label  @click="this.leerPortapapeles()" for="numPedidoInput">N° Pedido: </label>
       <input v-model="inputNumPedido"
         id="numPedidoInput" type="number" placeholder=" Número pedido.">
       <label for="tardanzaInput"> Tardará: </label>
@@ -42,47 +42,70 @@
     <hr>
     <article style="display: flex; align-items: center; flex-direction: column;">
       <h1>Primera respuesta</h1>
-      <div id='textToBeCopied'  @dblclick="selectText('textToBeCopied')"
-        style="min-height: 332px; text-align: initial; width: 80%;
-        padding: 5px;"
-        class="fr-element fr-view" dir="ltr"
-        contenteditable="true" aria-disabled="false" role="textbox" aria-multiline="true"
-        spellcheck="true">
-        <div dir="ltr">
-          <p><span style="color: rgb(51, 51, 51);
-            font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
-            Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif, -apple-system,
-            BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;,
-            Arial, sans-serif; font-size: 16.6667px; text-align: center;"
-            dir="ltr">{{mensaje.estimado}}&ZeroWidthSpace;<br><br><br>
-            {{mensaje.recibimos}}{{mensaje.vinculada}}{{mensaje.trabajaremos}}<br><br><br>
-            {{mensaje.atte}}<br>{{mensaje.agente}}
-            <br><br><br></span>
-          </p>
+      <tooltip :tooltipText="textoDbclickCopiar" :tooltipColor="tooltipColor"
+        :class="animacionBorde">
+        <div id='textToBeCopied'
+          @contextmenu.prevent="this.mensajeEditable = true"
+          @blur="this.mensajeEditable = false;"
+          @dblclick="DbclickOnMensaje('textToBeCopied')"
+          @mouseleave="mouseleaveMensaje"
+          style="min-height: 332px; text-align: initial; width: 80%;
+          padding: 5px;"
+          class="fr-element fr-view" dir="ltr"
+          :contenteditable="mensajeEditable" aria-disabled="false"
+          role="textbox" aria-multiline="true"
+          spellcheck="true">
+          <span dir="ltr">
+            <p><span style="color: rgb(51, 51, 51);
+              font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+              Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif, -apple-system,
+              BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;,
+              Arial, sans-serif; font-size: 16.6667px; text-align: initial;"
+              dir="ltr">{{mensaje.estimado}}&ZeroWidthSpace;<br><br><br>
+              {{mensaje.recibimos}}{{mensaje.vinculada}}{{mensaje.trabajaremos}}<br><br><br>
+              {{mensaje.atte}}<br>{{mensaje.agente}}
+              <br><br><br></span>
+            </p>
+          </span>
+          <div dir="ltr">
+            <p>
+              <img src="https://drive.google.com/uc?id=1tPhcDo46m4ZX6X3cYwQd-molDnAYaxts&export=download"
+              style="width: auto;" class="fr-fil fr-dib"
+              data-attachment="[object Object]" data-id="64011263237">
+            </p>
+          </div>
         </div>
-        <div dir="ltr">
-          <p>
-            <img src="https://drive.google.com/uc?id=1tPhcDo46m4ZX6X3cYwQd-molDnAYaxts&export=download"
-            style="width: auto;" class="fr-fil fr-dib"
-            data-attachment="[object Object]" data-id="64011263237">
-          </p>
-        </div>
-      </div>
+      </tooltip>
       <span style="display:none;">{{hasen}}</span>
       <br>
-      <button @click="copyToClipboard('textToBeCopied')">
-        <span class="icon-docs"></span> Copiar
-      </button>
+      <tooltip :tooltipText="textoBtnCopiar"
+      @click="textoBtnCopiar = 'Copiado'"
+      @mouseleave="mouseleaveMensaje"
+      tooltipColor="verde">
+        <button @click="copyToClipboard('textToBeCopied')">
+          <span class="icon-docs"></span> Copiar
+        </button>
+      </tooltip>
     </article>
   </div>
 </template>
 
 <script>
+import Tooltip from '../components/Tooltip.vue';
+
 export default {
   name: 'TardademosTanto',
+  components: {
+    Tooltip,
+  },
   data() {
     return {
-      coordinadorSeleccionado: '',
+      animacionBorde: '',
+      mensajeEditable: false,
+      tooltipColor: '',
+      textoDbclickCopiar: 'Doble click para copiar.',
+      textoBtnCopiar: '',
+      coordinadorSeleccionado: 'coordinador',
       agenteSeleccionado: 'Francisco',
       inputNumPedido: '700',
       inputMinutos: '30',
@@ -110,7 +133,31 @@ export default {
     };
   },
   methods: {
+    DbclickOnMensaje(containerid) {
+      this.textoDbclickCopiar = '¡Copiado!';
+      this.tooltipColor = 'verde';
+      this.selectText(containerid);
+    },
+    mouseleaveMensaje() {
+      this.textoDbclickCopiar = 'Doble click para copiar.';
+      this.tooltipColor = '';
+      this.textoBtnCopiar = '';
+    },
+    leerPortapapeles() {
+      if (navigator.clipboard !== undefined) {
+        navigator.clipboard.readText()
+          .then((text) => {
+            console.log('Pasted content: ', text);
+          })
+          .catch((err) => {
+            alert('Failed to read clipboard contents: ', err);
+          });
+      } else {
+        alert('Acceso al portapapeles no soportado.');
+      }
+    },
     seleccionar(e, rol) {
+      /* Se selecciona el coordinador y/o el agente */
       if (rol === 'Agente') {
         this.agenteSeleccionado = e.target.innerHTML;
       } else {
@@ -125,6 +172,9 @@ export default {
       this.selectText(divToBeCopied);
     },
     selectText(containerid) {
+      const self = this;
+      self.animacionBorde = '';
+      this.mensajeEditable = false;
       if (document.selection) { // IE
         const range = document.body.createTextRange();
         range.moveToElementText(document.getElementById(containerid));
@@ -136,7 +186,10 @@ export default {
         window.getSelection().addRange(range);
       }
       document.execCommand('copy');
-      alert('Copiado');
+      self.animacionBorde = 'fadeIn';
+      setTimeout(() => {
+        self.animacionBorde = '';
+      }, 500);
     },
     first_message() {
       this.mensaje.genero = this.coordinadores[this.coordinadorSeleccionado] || this.genero;
@@ -160,6 +213,26 @@ export default {
 </script>
 
 <style scoped>
+@-webkit-keyframes fadeIn {
+  from { border-radius: 15px; border: 5px solid #00A88A; opacity:1;}
+  to { border: 5px solid #00A88A; opacity:0; }
+  }
+@-moz-keyframes fadeIn {
+  from { border-radius: 15px; border: 5px solid #00A88A; opacity:1;}
+  to { border: 5px solid #00A88A; opacity:0; }
+  }
+@keyframes fadeIn {
+  from { border-radius: 15px; border: 5px solid #00A88A; opacity:1;}
+  to { border: 5px solid #00A88A; opacity:0; }
+  }
+
+ .fadeIn {
+  -webkit-animation: fadeIn 1s ease-in-out 0s;
+  -moz-animation: fadeIn 1s ease-in-out 0s;
+  -o-animation: fadeIn 1s ease-in-out 0s;
+   animation: fadeIn 1s ease-in-out 0s;
+}
+
 .o {
   background: #0099eb;
 }
@@ -191,5 +264,13 @@ button:hover {
 }
 button:focus {
   filter: brightness(90%)
+}
+@keyframes blink{
+  from {
+    border-color: #0099eb;
+    }
+  to {
+    border-color: white;
+    }
 }
 </style>

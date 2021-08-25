@@ -22,16 +22,20 @@
     </article>
     <hr>
   </div>
+  <tooltip tooltipText="hola" tooltipColor="verde">asd</tooltip>
+  <tooltip tooltipText="">aaaaaa</tooltip>
 </template>
 
 <script>
+import Tooltip from '@/components/Tooltip.vue';
+
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'RespuestaFinal',
-  // components: {
-  //  HelloWorld,
-  // },
+  components: {
+    Tooltip,
+  },
 };
 </script>
