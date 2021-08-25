@@ -146,11 +146,16 @@ export default {
     leerPortapapeles() {
       if (navigator.clipboard !== undefined) {
         navigator.clipboard.readText()
-          .then((text) => {
-            console.log('Pasted content: ', text);
+          .then((clipboardText) => {
+            const indexAnyTriada = clipboardText.search(/\b[0-9]{3}\b/);
+            if (indexAnyTriada !== -1) {
+              this.inputNumPedido = clipboardText.substring(indexAnyTriada, indexAnyTriada + 3);
+            } else {
+              this.inputNumPedido = '';
+            }
           })
-          .catch((err) => {
-            alert('Failed to read clipboard contents: ', err);
+          .catch(() => {
+            this.inputNumPedido = '';
           });
       } else {
         alert('Acceso al portapapeles no soportado.');
@@ -264,13 +269,5 @@ button:hover {
 }
 button:focus {
   filter: brightness(90%)
-}
-@keyframes blink{
-  from {
-    border-color: #0099eb;
-    }
-  to {
-    border-color: white;
-    }
 }
 </style>
