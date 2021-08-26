@@ -16,10 +16,14 @@
       <label  @click="this.leerPortapapeles()" for="numPedidoInput">N° Pedido: </label>
       <input v-model="inputNumPedido" :class="animacionInputPedido"
         id="numPedidoInput" type="number" placeholder=" Número pedido.">
-      <label for="tardanzaInput"> Tardará: </label>
-      <input v-model="inputMinutos"
+      <label for="tardanzaInput" @click="inputMinutos = ''"> Tardará: </label>
+      <input v-model="inputMinutos" list="minutos" @click="inputMinutos = ''"
       id="tardanzaInput" type="number" placeholder=" Tantos minutos.">
-      <label> Minutos.</label>
+      <datalist id="minutos">
+        <option v-for="(index, minutos) in listadoMinutos" :key="index"
+          :value="minutos">{{minutos}}</option>
+      </datalist>
+      <label @click="inputMinutos = ''"> Minutos.</label>
     </article>
     <hr>
     <article>
@@ -121,6 +125,14 @@ export default {
         trabajaremos: ', trabajaremos en la carga.',
         atte: 'Atentamente',
         agente: '',
+      },
+      listadoMinutos: {
+        10: '10',
+        15: '15',
+        20: '20',
+        30: '30',
+        40: '40',
+        50: '50',
       },
     };
   },
