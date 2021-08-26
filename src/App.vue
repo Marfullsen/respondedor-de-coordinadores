@@ -12,7 +12,7 @@
 body {
   margin: 0;
   background-color: #34a8ff;
-  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+  background-image: url("assets/patterns/45-degree-fabric-dark.png");
   height: 100%;
 }
 
