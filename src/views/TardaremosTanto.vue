@@ -4,15 +4,6 @@
     <hr>
     <article>
       <h1>Estimado/a</h1>
-      <!-- {<div>
-        <button @click="this.seleccionar($event)">Mauricio</button>
-        <button @click="this.seleccionar($event)">Humberto</button>
-        <button @click="this.seleccionar($event)">Maricel</button>
-        <button @click="this.seleccionar($event)">Loreto</button>
-        <button @click="this.seleccionar($event)">Estefanía</button>
-        <button @click="this.seleccionar($event)">Carolina</button>
-        <button @click="this.seleccionar($event)">Otro / a</button>
-      </div>} -->
       <div>
         <button v-for="(value, key, index) in coordinadores" v-bind:key="index" :class="value"
         @click="this.seleccionar($event)">{{ key }}</button>
@@ -23,7 +14,7 @@
     <article>
       <h1>Hemos recibido su solicitud</h1>
       <label  @click="this.leerPortapapeles()" for="numPedidoInput">N° Pedido: </label>
-      <input v-model="inputNumPedido"
+      <input v-model="inputNumPedido" :class="animacionInputPedido"
         id="numPedidoInput" type="number" placeholder=" Número pedido.">
       <label for="tardanzaInput"> Tardará: </label>
       <input v-model="inputMinutos"
@@ -100,6 +91,7 @@ export default {
   },
   data() {
     return {
+      animacionInputPedido: '',
       animacionBorde: '',
       mensajeEditable: false,
       tooltipColor: '',
@@ -144,14 +136,23 @@ export default {
       this.textoBtnCopiar = '';
     },
     leerPortapapeles() {
+      const self = this;
       if (navigator.clipboard !== undefined) {
         navigator.clipboard.readText()
           .then((clipboardText) => {
             const indexAnyTriada = clipboardText.search(/\b[0-9]{3}\b/);
             if (indexAnyTriada !== -1) {
               this.inputNumPedido = clipboardText.substring(indexAnyTriada, indexAnyTriada + 3);
+              self.animacionInputPedido = 'success';
+              setTimeout(() => {
+                self.animacionInputPedido = '';
+              }, 1000);
             } else {
               this.inputNumPedido = '';
+              self.animacionInputPedido = 'danger';
+              setTimeout(() => {
+                self.animacionInputPedido = '';
+              }, 1000);
             }
           })
           .catch(() => {
@@ -218,6 +219,29 @@ export default {
 </script>
 
 <style scoped>
+@-webkit-keyframes danger {from { border-color: red;}to { border-color: red; }}
+@-moz-keyframes danger {from { border-color: red;}to { border-color: red; }}
+@keyframes danger {from { outline: red auto 1px;}to { outline: -webkit-focus-ring-color auto 1px; }}
+.danger:focus-visible {
+  /* border-radius: 5px;
+  border: solid black; */
+  outline: webkit-focus-ring-color auto 1px;
+  -webkit-animation: danger 500ms ease-in-out 0s;
+  -moz-animation: danger 500ms ease-in-out 0s;
+  -o-animation: danger 500ms ease-in-out 0s;
+  animation: danger 500ms ease-in-out 0s;
+}
+
+@keyframes success {to { outline: rgb(12, 196, 12) auto 1px;}
+  40% {outline: rgb(21, 189, 21) auto 1px;}
+  20% {outline: green auto 1px;}
+  from { outline: -webkit-focus-ring-color auto 1px; }}
+.success {
+  /* border-radius: 15px;
+  border: solid 5px lightgreen; */
+  outline: webkit-focus-ring-color auto 1px;
+  animation: success 600ms ease-in-out 0s;
+}
 @-webkit-keyframes fadeIn {
   from { border-radius: 15px; border: 5px solid #00A88A; opacity:1;}
   to { border: 5px solid #00A88A; opacity:0; }
@@ -249,6 +273,10 @@ input {
   margin-top: 1rem;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+.danger:focus-visible{
+  outline: none;
 }
 hr {
   width: 80%;
