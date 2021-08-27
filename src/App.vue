@@ -54,7 +54,7 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-.icon-docs, .icon-earphones-alt, .icon-social-github {
+.icon-docs, .icon-earphones-alt, .icon-social-github, .icon-arrow-right-circle {
   font-family: 'simple-line-icons';
   font-style: normal;
   font-weight: normal;
@@ -74,6 +74,10 @@ body {
 }
 .icon-docs:before {
   content: "\e040";
+}
+.icon-arrow-right-circle:before {
+  color: #0099eb;
+  content: "\e079";
 }
 .icon-social-github:hover {
   color: #F35F19;

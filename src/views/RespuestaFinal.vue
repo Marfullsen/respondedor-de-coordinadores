@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1>Respuesta final</h1>
+    <h1 @click="uncheckAll">Respuesta final</h1>
     <hr>
     <article>
-      <h1>Estimado/a</h1>
+      <h1 @click="toggleCheckAll">Estimado/a</h1>
       <div>
         <button v-for="(value, key, index) in coordinadores" v-bind:key="index" :class="value"
         @click="this.seleccionar($event)">{{ key }}</button>
@@ -12,36 +12,60 @@
     </article>
     <hr>
     <article>
-      Se clonó el curso --NOMBRE CURSO-- código --CÓDIGO--
+      <div style="display: flex;justify-content: center;align-items: center; flex-wrap: wrap;">
+        <input id="chboxCursoCodigo" v-model="chboxCursoCodigo"
+          type="checkbox" style="width: 32px;">
+        <label for="chboxCursoCodigo">&nbsp;&nbsp;Se clonó el curso&nbsp;&nbsp;</label>
+        <input v-model="nombreCurso"
+          @contextmenu.prevent="nombreCurso = leerPortapapeles()"
+          type="text" placeholder="NombreCurso">
+        <label for="chboxCursoCodigo">, código&nbsp;&nbsp;</label>
+        <input v-model="codigoCurso" type="text" placeholder="códigoCurso">
+        <label for="chboxCursoCodigo">.</label>
+      </div>
+      <div style="display: flex;justify-content: center;align-items: center; flex-wrap: wrap;">
+        <input id="chboxPlanillaFila" v-model="chboxPlanillaFila"
+          type="checkbox" style="width: 32px;">
+        <label for="chboxPlanillaFila">&nbsp;&nbsp;
+          Se cargaron los participantes de la planilla&nbsp;&nbsp;
+        </label>
+        <input v-model="planilla" type="text" placeholder="Planilla">
+        <label for="chboxPlanillaFila">&nbsp;&nbsp;filas &nbsp;&nbsp;</label>
+        <input v-model="filaX" type="text" placeholder="FilaX">
+        <label for="chboxPlanillaFila">&nbsp;&nbsp;a&nbsp;&nbsp;</label>
+        <input v-model="filaY" type="text" placeholder="FilaY">
+        <label for="chboxPlanillaFila">.</label>
+      </div>
     </article>
     <hr>
     <article>
-      - Se cargaro los participantes de la planilla PLANILLA, filas X a Y.
-    </article>
-    <hr>
-    <article>
-      - Se despacharon las invitaciones por correo con las credenciales de acceso.
-    </article>
-    <hr>
-    <article>
-      - Se actualizó el link de la clase sincrónica.
-    </article>
-    <hr>
-    <article>
-      - Se habilitó el bloque SENCE.
-    </article>
-    <hr>
-    <article>
-      <h1>Quedo atento.</h1>
-      <label>
-        <input style="width: 32px;"
-        type="checkbox" value="Quedo atento."
-      > Quedo atento.</label>
+      <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; align-items: baseline;">
+          <label style="display: flex;justify-content: center;align-items: center;">
+            <input v-model="chboxDespachoInvitaciones" type="checkbox" style="width: 32px;">
+            &nbsp;&nbsp;Se despacharon las invitaciones por correo con las credenciales de acceso.
+          </label>
+          <label style="display: flex;justify-content: center;align-items: center;">
+            <input v-model="chboxClaseSincronica" type="checkbox" style="width: 32px;">
+            &nbsp;&nbsp;Se actualizó el link de la clase sincrónica.
+          </label>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: baseline;">
+          <label style="display: flex;justify-content: center;align-items: center;">
+            <input v-model="chboxBloqueSence" type="checkbox" style="width: 32px;">
+            &nbsp;&nbsp;Se habilitó el bloque SENCE.
+          </label>
+          <label style="display: flex;justify-content: center;align-items: center;">
+            <input v-model="chboxQuedoAtento" style="width: 32px;"
+            type="checkbox" value="Quedo atento."
+          >&nbsp;&nbsp;Quedo atento.</label>
+        </div>
+      </div>
       <br>
     </article>
     <hr>
     <article>
-      <h1>Atentamente</h1>
+      <h1 @click="bottomScrolling">Atentamente</h1>
       <div>
         <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Francisco</button>
         <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Sebastian</button>
@@ -50,7 +74,7 @@
     </article>
     <hr>
     <article style="display: flex; align-items: center; flex-direction: column;">
-      <h1>Primera respuesta</h1>
+      <h1 @click="bottomScrolling">Respuesta final</h1>
       <tooltip :tooltipText="textoDbclickCopiar" :tooltipColor="tooltipColor"
         :class="animacionBorde">
         <div id='textToBeCopied'
@@ -71,8 +95,15 @@
               BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;,
               Arial, sans-serif; font-size: 16.6667px; text-align: initial;"
               dir="ltr">{{mensaje.estimado}}&ZeroWidthSpace;<br><br><br>
-              {{mensaje.recibimos}}{{mensaje.vinculada}}{{mensaje.trabajaremos}}<br><br><br>
-              {{mensaje.atte}}<br>{{mensaje.agente}}
+              <span v-if="chboxCursoCodigo">{{mensaje.clonacion}}<br><br></span>
+              <span v-if="chboxPlanillaFila">{{mensaje.planillaFilas}}<br><br></span>
+              <span v-if="chboxDespachoInvitaciones">{{mensaje.despachoInvitaciones}}<br><br></span>
+              <span v-if="chboxClaseSincronica">{{mensaje.linkClase}}<br><br></span>
+              <span v-if="chboxBloqueSence">{{mensaje.bloqueSence}}<br><br></span>
+              <br>
+              <span v-if="chboxQuedoAtento">{{mensaje.quedoAtento}}<br></span>
+              {{mensaje.atte}}<br>
+              {{mensaje.agente}}
               <br><br><br></span>
             </p>
           </span>
@@ -109,6 +140,18 @@ export default {
   },
   data() {
     return {
+      portapapeles: '',
+      nombreCurso: '',
+      codigoCurso: '',
+      planilla: '',
+      filaX: '',
+      filaY: '',
+      chboxCursoCodigo: false,
+      chboxPlanillaFila: false,
+      chboxDespachoInvitaciones: false,
+      chboxBloqueSence: false,
+      chboxClaseSincronica: false,
+      chboxQuedoAtento: false,
       animacionInputPedido: '',
       animacionBorde: '',
       mensajeEditable: false,
@@ -151,6 +194,30 @@ export default {
     };
   },
   methods: {
+    toggleCheckAll() {
+      this.chboxCursoCodigo = !this.chboxCursoCodigo;
+      this.chboxPlanillaFila = !this.chboxPlanillaFila;
+      this.chboxDespachoInvitaciones = !this.chboxDespachoInvitaciones;
+      this.chboxBloqueSence = !this.chboxBloqueSence;
+      this.chboxClaseSincronica = !this.chboxClaseSincronica;
+      this.chboxQuedoAtento = !this.chboxQuedoAtento;
+    },
+    uncheckAll() {
+      this.chboxCursoCodigo = false;
+      this.chboxPlanillaFila = false;
+      this.chboxDespachoInvitaciones = false;
+      this.chboxBloqueSence = false;
+      this.chboxClaseSincronica = false;
+      this.chboxQuedoAtento = false;
+      this.nombreCurso = '';
+      this.codigoCurso = '';
+      this.planilla = '';
+      this.filaX = '';
+      this.filaY = '';
+    },
+    bottomScrolling() {
+      window.scrollTo(0, document.body.scrollHeight);
+    },
     DbclickOnMensaje(containerid) {
       this.textoDbclickCopiar = '¡Copiado!';
       this.tooltipColor = 'verde';
@@ -161,37 +228,24 @@ export default {
       this.tooltipColor = '';
       this.textoBtnCopiar = '';
     },
-    leerPortapapeles() {
-      const self = this;
+    async leerPortapapeles() {
+      let text;
       if (navigator.clipboard !== undefined) {
-        navigator.clipboard.readText()
-          .then((clipboardText) => {
-            const indexAnyTriada = clipboardText.search(/\b[0-9]{3}\b/);
-            if (indexAnyTriada !== -1) {
-              this.inputNumPedido = clipboardText.substring(indexAnyTriada, indexAnyTriada + 3);
-              self.animacionInputPedido = 'success';
-              setTimeout(() => {
-                self.animacionInputPedido = '';
-              }, 1000);
-            } else {
-              this.inputNumPedido = '';
-              self.animacionInputPedido = 'danger';
-              setTimeout(() => {
-                self.animacionInputPedido = '';
-              }, 1000);
-            }
-          })
-          .catch(() => {
-            this.inputNumPedido = '';
-          });
+        console.log('Leyendo portapaleles...');
+        text = Promise.resolve(navigator.clipboard.readText()
+          .then((clipboardText) => clipboardText)
+          .catch(() => 'Error'));
       } else {
         alert('Acceso al portapapeles no soportado.');
       }
+      alert(text);
+      return text;
     },
     seleccionar(e, rol) {
       /* Se selecciona el coordinador y/o el agente */
       if (rol === 'Agente') {
         this.agenteSeleccionado = e.target.innerHTML;
+        window.scrollTo(0, document.body.scrollHeight);
       } else {
         this.coordinadorSeleccionado = e.target.innerHTML;
         if (e.target.innerHTML === 'Otro' || e.target.innerHTML === 'Otra') {
@@ -218,6 +272,7 @@ export default {
         window.getSelection().addRange(range);
       }
       document.execCommand('copy');
+      window.scrollTo(0, document.body.scrollHeight);
       self.animacionBorde = 'fadeIn';
       setTimeout(() => {
         self.animacionBorde = '';
@@ -226,10 +281,13 @@ export default {
     first_message() {
       this.mensaje.genero = this.coordinadores[this.coordinadorSeleccionado] || this.genero;
       this.mensaje.estimado = `Estimad${this.mensaje.genero} ${this.coordinadorSeleccionado}`;
-      this.mensaje.recibimos = 'Hemos recibido su solicitud';
-      this.mensaje.vinculada = this.inputNumPedido ? ` vinculada al pedido N°${this.inputNumPedido}` : '';
-      this.mensaje.trabajaremos = `, trabajaremos en la carga y tendrá un tiempo estimado de ${this.inputMinutos} minutos.`;
-      this.mensaje.atte = 'Atentamente';
+      this.mensaje.clonacion = this.chboxCursoCodigo ? `■ Se clonó el curso "${this.nombreCurso}", código ${this.codigoCurso}.` : '';
+      this.mensaje.planillaFilas = this.chboxPlanillaFila ? `■ Se realizó la carga de los participantes de la planilla ${this.planilla}, filas ${this.filaX} a ${this.filaY}.` : '';
+      this.mensaje.despachoInvitaciones = this.chboxDespachoInvitaciones ? '■ Se despacharon las invitaciones por correo con las credenciales de acceso.' : '';
+      this.mensaje.linkClase = this.chboxClaseSincronica ? '■ Se actualizó el link de la clase sincrónica.' : '';
+      this.mensaje.bloqueSence = this.chboxBloqueSence ? '■ Se habilitó el bloque SENCE' : '';
+      this.mensaje.quedoAtento = this.chboxQuedoAtento ? 'Quedo atento' : '';
+      this.mensaje.atte = 'Atentamente,';
       this.mensaje.agente = `${this.agenteSeleccionado}, soporte TIPU`;
     },
   },

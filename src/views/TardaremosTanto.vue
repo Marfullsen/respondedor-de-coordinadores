@@ -27,7 +27,7 @@
     </article>
     <hr>
     <article>
-      <h1>Atentamente</h1>
+      <h1 @click="bottomScrolling">Atentamente</h1>
       <div>
         <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Francisco</button>
         <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Sebastian</button>
@@ -36,7 +36,7 @@
     </article>
     <hr>
     <article style="display: flex; align-items: center; flex-direction: column;">
-      <h1>Primera respuesta</h1>
+      <h1 @click="bottomScrolling" >Primera respuesta</h1>
       <tooltip :tooltipText="textoDbclickCopiar" :tooltipColor="tooltipColor"
         :class="animacionBorde">
         <div id='textToBeCopied'
@@ -81,6 +81,13 @@
           <span class="icon-docs"></span> Copiar
         </button>
       </tooltip>
+    </article>
+    <article style="display: flex; min-height: 70px;">
+      <div style="width: 20%;"></div>
+      <div style="width: 20%;"></div>
+      <div style="width: 20%;"></div>
+      <div style="width: 20%;"><span class="icon-arrow-right-circle"></span></div>
+      <div style="width: 20%;"></div>
     </article>
   </div>
 </template>
@@ -137,6 +144,9 @@ export default {
     };
   },
   methods: {
+    bottomScrolling() {
+      window.scrollTo(0, document.body.scrollHeight);
+    },
     DbclickOnMensaje(containerid) {
       this.textoDbclickCopiar = '¡Copiado!';
       this.tooltipColor = 'verde';
@@ -178,6 +188,7 @@ export default {
       /* Se selecciona el coordinador y/o el agente */
       if (rol === 'Agente') {
         this.agenteSeleccionado = e.target.innerHTML;
+        this.bottomScrolling();
       } else {
         this.coordinadorSeleccionado = e.target.innerHTML;
         if (e.target.innerHTML === 'Otro' || e.target.innerHTML === 'Otra') {
@@ -204,6 +215,7 @@ export default {
         window.getSelection().addRange(range);
       }
       document.execCommand('copy');
+      this.bottomScrolling();
       self.animacionBorde = 'fadeIn';
       setTimeout(() => {
         self.animacionBorde = '';
