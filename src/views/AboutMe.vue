@@ -9,7 +9,7 @@
       style="border-radius: 50%;
         width: 200px;
         padding-bottom: 20px;">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <img alt="Vue logo" style="width: 200px" src="../assets/robot-tipu-alone.png">
   </div>
 </template>
 

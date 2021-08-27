@@ -4,6 +4,7 @@
     <p>
       Bienvenido al respondedor de mensajes de coordinadores TIPU.<br>
     </p>
+    <img alt="Bad_Robot_Tipu" style="width: 150px" src="../assets/robot-tipu-alone.png">
     <h2>Enlaces disponibles</h2>
     <ul>
       <li>Inicio</li>
