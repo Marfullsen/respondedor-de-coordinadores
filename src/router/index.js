@@ -7,6 +7,10 @@ import NotFound from '../components/NotFound.vue';
 const routes = [
   {
     path: '/',
+    redirect: '/tardaremos_tanto',
+  },
+  {
+    path: '/inicio',
     name: 'HomePage',
     component: HomePage,
   },

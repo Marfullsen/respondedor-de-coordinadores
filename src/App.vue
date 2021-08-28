@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-link to="/">Inicio</router-link> |
+    <router-link to="/inicio">Inicio</router-link> |
     <router-link to="/tardaremos_tanto">Tardademos Tanto</router-link> |
     <router-link to="/respuesta_final">Respuesta final</router-link> |
     <router-link to="/about">¿Quienes somos?</router-link>
