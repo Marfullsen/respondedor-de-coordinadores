@@ -38,9 +38,6 @@ export default {
 </script>
 
 <style scoped>
-hr {
-  width: 80%;
-}
 h3 {
   margin: 40px 0 0;
 }

@@ -12,7 +12,7 @@
 body {
   margin: 0;
   background-color: #34a8ff;
-  background-image: url("assets/patterns/45-degree-fabric-dark.png");
+  background-image: url("./assets/patterns/45-degree-fabric-dark.png");
   height: 100%;
 }
 
@@ -22,6 +22,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+hr {
+  width: 80%;
 }
 
 #nav {
@@ -69,7 +73,6 @@ body {
   font-size: xxx-large;
   text-transform: none;
   line-height: 1;
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -99,6 +102,7 @@ body {
   background: -moz-linear-gradient(to top left, #0099EB 0%, #6B2AEB 100%);
   background: linear-gradient(to top left, #0099EB 0%, #6B2AEB 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   content: "\e01c";
 }

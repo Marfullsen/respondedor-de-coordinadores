@@ -46,8 +46,13 @@
     </article>
     <article v-show="chboxPlanillaFila">
       <hr>
-      <button v-for="(value, key, index) in planillas" v-bind:key="index" :class="value"
-        @click="this.seleccionarPlanilla($event)">{{ key }}</button>
+      <section style="display: flex; justify-content: center;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 80%;">
+          <button v-for="(value, key, index) in planillas" v-bind:key="index"
+            style="margin: 5px; background: #00A88A; height: 70px;"
+            @click="this.seleccionarPlanilla($event)">{{ key }}</button>
+        </div>
+      </section>
     </article>
     <hr>
     <article>
@@ -79,8 +84,11 @@
     <article>
       <h1 @click="bottomScrolling">Atentamente</h1>
       <div>
-        <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Francisco</button>
-        <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Sebastian</button>
+        <button v-for="(index, idAgente) in agentes"
+          :key="index"
+          @click="this.seleccionar($event, 'Agente')"
+          class="btnAgente">{{agentes[idAgente]}}
+        </button>
       </div>
       <input type="text" @contextmenu.prevent="pegarAqui($event)"
       v-model="agenteSeleccionado">
@@ -194,17 +202,8 @@ export default {
       inputNumPedido: '700',
       inputMinutos: '30',
       genero: 'o',
-      coordinadores: {
-        Loreto: 'a',
-        Mauricio: 'o',
-        Estefanía: 'a',
-        Humberto: 'o',
-        Maricel: 'a',
-        Gonzalo: 'o',
-        Carolina: 'a',
-        Otro: 'o',
-        Otra: 'a',
-      },
+      coordinadores: this.$coordinadores,
+      agentes: this.$agentes,
       mensaje: {
         genero: '',
         estimado: '',
@@ -222,9 +221,7 @@ export default {
         40: '40',
         50: '50',
       },
-      planillas: {
-        'Despacho Hipobaria': 'https://fontdrop.info/',
-      },
+      planillas: this.$planillasJson,
     };
   },
   methods: {
@@ -278,7 +275,6 @@ export default {
       }
     },
     seleccionar(e, rol) {
-      /* Se selecciona el coordinador y/o el agente */
       if (rol === 'Agente') {
         this.agenteSeleccionado = e.target.innerHTML;
         window.scrollTo(0, document.body.scrollHeight);
@@ -372,8 +368,6 @@ export default {
 @-moz-keyframes danger {from { border-color: red;}to { border-color: red; }}
 @keyframes danger {from { outline: red auto 1px;}to { outline: -webkit-focus-ring-color auto 1px; }}
 .danger:focus-visible {
-  /* border-radius: 5px;
-  border: solid black; */
   outline: webkit-focus-ring-color auto 1px;
   -webkit-animation: danger 500ms ease-in-out 0s;
   -moz-animation: danger 500ms ease-in-out 0s;
@@ -386,8 +380,6 @@ export default {
   20% {outline: green auto 1px;}
   from { outline: -webkit-focus-ring-color auto 1px; }}
 .success {
-  /* border-radius: 15px;
-  border: solid 5px lightgreen; */
   outline: webkit-focus-ring-color auto 1px;
   animation: success 600ms ease-in-out 0s;
 }
@@ -426,9 +418,6 @@ input {
 
 .danger:focus-visible{
   outline: none;
-}
-hr {
-  width: 80%;
 }
 .nombreCoordinadorBtn, .btnAgente, button{
   background: #0099eb;

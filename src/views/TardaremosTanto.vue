@@ -30,8 +30,8 @@
     <article>
       <h1 @click="bottomScrolling">Atentamente</h1>
       <div>
-        <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Francisco</button>
-        <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Sebastian</button>
+        <button v-for="(index, idAgente) in agentes" :key="index"
+        @click="this.seleccionar($event, 'Agente')" class="btnAgente">{{agentes[idAgente]}}</button>
       </div>
       <input type="text" v-model="agenteSeleccionado">
     </article>
@@ -118,17 +118,8 @@ export default {
       inputNumPedido: '700',
       inputMinutos: '30',
       genero: 'o',
-      coordinadores: {
-        Loreto: 'a',
-        Mauricio: 'o',
-        Estefanía: 'a',
-        Humberto: 'o',
-        Maricel: 'a',
-        Gonzalo: 'o',
-        Carolina: 'a',
-        Otro: 'o',
-        Otra: 'a',
-      },
+      agentes: this.$agentes,
+      coordinadores: this.$coordinadores,
       mensaje: {
         genero: '',
         estimado: '',
@@ -190,7 +181,6 @@ export default {
       }
     },
     seleccionar(e, rol) {
-      /* Se selecciona el coordinador y/o el agente */
       if (rol === 'Agente') {
         this.agenteSeleccionado = e.target.innerHTML;
         this.bottomScrolling();
@@ -260,8 +250,6 @@ export default {
 @-moz-keyframes danger {from { border-color: red;}to { border-color: red; }}
 @keyframes danger {from { outline: red auto 1px;}to { outline: -webkit-focus-ring-color auto 1px; }}
 .danger:focus-visible {
-  /* border-radius: 5px;
-  border: solid black; */
   outline: webkit-focus-ring-color auto 1px;
   -webkit-animation: danger 500ms ease-in-out 0s;
   -moz-animation: danger 500ms ease-in-out 0s;
@@ -274,8 +262,6 @@ export default {
   20% {outline: green auto 1px;}
   from { outline: -webkit-focus-ring-color auto 1px; }}
 .success {
-  /* border-radius: 15px;
-  border: solid 5px lightgreen; */
   outline: webkit-focus-ring-color auto 1px;
   animation: success 600ms ease-in-out 0s;
 }
@@ -315,9 +301,7 @@ input {
 .danger:focus-visible{
   outline: none;
 }
-hr {
-  width: 80%;
-}
+
 .nombreCoordinadorBtn, .btnAgente, button{
   background: #0099eb;
   border-color: lightsteelblue;

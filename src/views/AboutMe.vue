@@ -21,9 +21,3 @@
     </footer>
   </div>
 </template>
-
-<style scoped>
-hr {
-  width: 80%;
-}
-</style>
