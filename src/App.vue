@@ -54,7 +54,14 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-.icon-docs, .icon-earphones-alt, .icon-social-github, .icon-arrow-right-circle {
+.icon-docs, .icon-earphones-alt,
+.icon-social-github,
+.icon-arrow-right-circle,
+.icon-arrow-left-circle,
+.icon-pin, .icon-speech,
+.icon-wrench, .icon-home,
+.icon-organization,
+.icon-people, .icon-fire {
   font-family: 'simple-line-icons';
   font-style: normal;
   font-weight: normal;
@@ -78,6 +85,44 @@ body {
 .icon-arrow-right-circle:before {
   color: #0099eb;
   content: "\e079";
+  font-size: 70px;
+  margin-bottom: 10px;
+}
+.icon-home:before {
+  color: #0099eb;
+  content: "\e069";
+}
+.icon-fire:before {
+  background: #CF1512;
+  background: #0099EB;
+  background: -webkit-linear-gradient(to top left, #0099EB 0%, #6B2AEB 100%);
+  background: -moz-linear-gradient(to top left, #0099EB 0%, #6B2AEB 100%);
+  background: linear-gradient(to top left, #0099EB 0%, #6B2AEB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  content: "\e01c";
+}
+.icon-people:before {
+  color: #0099eb;
+  content: "\e001";
+}
+.icon-pin:before {
+  color: #0099eb;
+  content: "\e031";
+}
+.icon-speech:before {
+  color: #0099eb;
+  content: "\e02c";
+}
+.icon-wrench:before {
+  color: #0099eb;
+  content: "\e052";
+}
+.icon-arrow-left-circle:before {
+  color: #0099eb;
+  content: "\e07a";
+  font-size: 70px;
+  margin-bottom: 10px;
 }
 .icon-social-github:hover {
   color: #F35F19;

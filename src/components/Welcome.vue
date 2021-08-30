@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <h1>{{ titulo }}</h1>
+    <h1 style="margin-bottom: 0;">{{ titulo }}</h1>
+    <p style="margin-top: 5px; margin-bottom: 5px;"><span class="icon-people"></span></p>
+    <hr>
     <p>
       Bienvenido al respondedor de mensajes de coordinadores TIPU.<br>
     </p>
@@ -36,6 +38,9 @@ export default {
 </script>
 
 <style scoped>
+hr {
+  width: 80%;
+}
 h3 {
   margin: 40px 0 0;
 }

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>Tardaremos tantos minutos en ayudarle</h1>
+    <h1 style="margin-bottom: 0;">Tardaremos tantos minutos en ayudarle</h1>
+    <p style="margin-top: 5px; margin-bottom: 5px;"><span class="icon-pin"></span></p>
     <hr>
     <article>
       <h1>Estimado/a</h1>
@@ -86,7 +87,11 @@
       <div style="width: 20%;"></div>
       <div style="width: 20%;"></div>
       <div style="width: 20%;"></div>
-      <div style="width: 20%;"><span class="icon-arrow-right-circle"></span></div>
+      <div style="width: 20%; margin-bottom: 10px;">
+        <router-link style="text-decoration: none;" to="/respuesta_final">
+          <span class="icon-arrow-right-circle"></span>
+        </router-link>
+      </div>
       <div style="width: 20%;"></div>
     </article>
   </div>

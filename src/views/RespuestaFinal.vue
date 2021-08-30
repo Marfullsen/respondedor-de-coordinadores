@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1 @click="uncheckAll">Respuesta final</h1>
+    <h1 style="margin-bottom: 0;" @click="uncheckAll">Respuesta final</h1>
+    <p style="margin-top: 5px; margin-bottom: 5px;"><span class="icon-speech"></span></p>
     <hr>
     <article>
       <h1 @click="toggleCheckAll">Estimado/a</h1>
@@ -8,7 +9,8 @@
         <button v-for="(value, key, index) in coordinadores" v-bind:key="index" :class="value"
         @click="this.seleccionar($event)">{{ key }}</button>
       </div>
-      <input id="coordinadorSeleccionado" type="text" v-model="coordinadorSeleccionado">
+      <input id="coordinadorSeleccionado" @contextmenu.prevent="pegarAqui($event)"
+        type="text" v-model="coordinadorSeleccionado">
     </article>
     <hr>
     <article>
@@ -17,10 +19,12 @@
           type="checkbox" style="width: 32px;">
         <label for="chboxCursoCodigo">&nbsp;&nbsp;Se clonó el curso&nbsp;&nbsp;</label>
         <input v-model="nombreCurso"
-          @contextmenu.prevent="nombreCurso = leerPortapapeles()"
+          @contextmenu.prevent="pegarAqui($event)"
           type="text" placeholder="NombreCurso">
         <label for="chboxCursoCodigo">, código&nbsp;&nbsp;</label>
-        <input v-model="codigoCurso" type="text" placeholder="códigoCurso">
+        <input v-model="codigoCurso"
+          @contextmenu.prevent="pegarAqui($event)"
+          type="text" placeholder="códigoCurso">
         <label for="chboxCursoCodigo">.</label>
       </div>
       <div style="display: flex;justify-content: center;align-items: center; flex-wrap: wrap;">
@@ -29,13 +33,20 @@
         <label for="chboxPlanillaFila">&nbsp;&nbsp;
           Se cargaron los participantes de la planilla&nbsp;&nbsp;
         </label>
-        <input v-model="planilla" type="text" placeholder="Planilla">
+        <input v-model="planilla" @contextmenu.prevent="pegarAqui($event)"
+          type="text" placeholder="Planilla">
         <label for="chboxPlanillaFila">&nbsp;&nbsp;filas &nbsp;&nbsp;</label>
-        <input v-model="filaX" type="text" placeholder="FilaX">
+        <input v-model="filaX" @contextmenu.prevent="pegarAqui($event)"
+         type="text" placeholder="FilaX">
         <label for="chboxPlanillaFila">&nbsp;&nbsp;a&nbsp;&nbsp;</label>
-        <input v-model="filaY" type="text" placeholder="FilaY">
+        <input v-model="filaY" @contextmenu.prevent="pegarAqui($event)"
+          type="text" placeholder="FilaY">
         <label for="chboxPlanillaFila">.</label>
       </div>
+    </article>
+    <article v-show="chboxPlanillaFila">
+      <hr>
+      <button>Hipobaria</button>
     </article>
     <hr>
     <article>
@@ -70,7 +81,8 @@
         <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Francisco</button>
         <button @click="this.seleccionar($event, 'Agente')" class="btnAgente">Sebastian</button>
       </div>
-      <input type="text" v-model="agenteSeleccionado">
+      <input type="text" @contextmenu.prevent="pegarAqui($event)"
+      v-model="agenteSeleccionado">
     </article>
     <hr>
     <article style="display: flex; align-items: center; flex-direction: column;">
@@ -127,6 +139,17 @@
         </button>
       </tooltip>
     </article>
+    <article style="display: flex; min-height: 70px;">
+      <div style="width: 20%;"></div>
+      <div style="width: 20%; margin-bottom: 10px;">
+        <router-link style="text-decoration: none;" to="/tardaremos_tanto">
+          <span class="icon-arrow-left-circle"></span>
+        </router-link>
+      </div>
+      <div style="width: 20%;"></div>
+      <div style="width: 20%;"></div>
+      <div style="width: 20%;"></div>
+    </article>
   </div>
 </template>
 
@@ -134,12 +157,13 @@
 import Tooltip from '../components/Tooltip.vue';
 
 export default {
-  name: 'TardademosTanto',
+  name: 'RespuestaFinal',
   components: {
     Tooltip,
   },
   data() {
     return {
+      mostrarBotoneraPlanillas: false,
       portapapeles: '',
       nombreCurso: '',
       codigoCurso: '',
@@ -191,9 +215,16 @@ export default {
         40: '40',
         50: '50',
       },
+      planillas: {
+        'Despacho Hipobaria': 'https//',
+      },
     };
   },
   methods: {
+    pegarAqui(e) {
+      this.leerPortapapeles();
+      e.target.value = this.portapapeles;
+    },
     toggleCheckAll() {
       this.chboxCursoCodigo = !this.chboxCursoCodigo;
       this.chboxPlanillaFila = !this.chboxPlanillaFila;
@@ -229,17 +260,15 @@ export default {
       this.textoBtnCopiar = '';
     },
     async leerPortapapeles() {
-      let text;
-      if (navigator.clipboard !== undefined) {
-        console.log('Leyendo portapaleles...');
-        text = Promise.resolve(navigator.clipboard.readText()
-          .then((clipboardText) => clipboardText)
-          .catch(() => 'Error'));
+      if (navigator.clipboard) {
+        navigator.clipboard.readText()
+          .then((clipboardText) => {
+            this.portapapeles = clipboardText;
+          })
+          .catch(() => 'Error');
       } else {
         alert('Acceso al portapapeles no soportado.');
       }
-      alert(text);
-      return text;
     },
     seleccionar(e, rol) {
       /* Se selecciona el coordinador y/o el agente */
@@ -283,6 +312,8 @@ export default {
       this.mensaje.estimado = `Estimad${this.mensaje.genero} ${this.coordinadorSeleccionado}`;
       this.mensaje.clonacion = this.chboxCursoCodigo ? `■ Se clonó el curso "${this.nombreCurso}", código ${this.codigoCurso}.` : '';
       this.mensaje.planillaFilas = this.chboxPlanillaFila ? `■ Se realizó la carga de los participantes de la planilla ${this.planilla}, filas ${this.filaX} a ${this.filaY}.` : '';
+      if (!this.filaX && !this.filaY) this.mensaje.planillaFilas = `■ Se realizó la carga de los participantes de la planilla ${this.planilla}.`;
+      if (this.filaX && !this.filaY) this.mensaje.planillaFilas = `■ Se realizó la carga del participante de la planilla ${this.planilla}, fila ${this.filaX}.`;
       this.mensaje.despachoInvitaciones = this.chboxDespachoInvitaciones ? '■ Se despacharon las invitaciones por correo con las credenciales de acceso.' : '';
       this.mensaje.linkClase = this.chboxClaseSincronica ? '■ Se actualizó el link de la clase sincrónica.' : '';
       this.mensaje.bloqueSence = this.chboxBloqueSence ? '■ Se habilitó el bloque SENCE' : '';
@@ -290,6 +321,9 @@ export default {
       this.mensaje.atte = 'Atentamente,';
       this.mensaje.agente = `${this.agenteSeleccionado}, soporte TIPU`;
     },
+  },
+  mounted() {
+    this.leerPortapapeles();
   },
   computed: {
     obtenerGenero() {
