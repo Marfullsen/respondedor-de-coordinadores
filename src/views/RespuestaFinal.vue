@@ -46,7 +46,8 @@
     </article>
     <article v-show="chboxPlanillaFila">
       <hr>
-      <button>Hipobaria</button>
+      <button v-for="(value, key, index) in planillas" v-bind:key="index" :class="value"
+        @click="this.seleccionarPlanilla($event)">{{ key }}</button>
     </article>
     <hr>
     <article>
@@ -108,7 +109,12 @@
               Arial, sans-serif; font-size: 16.6667px; text-align: initial;"
               dir="ltr">{{mensaje.estimado}}&ZeroWidthSpace;<br><br><br>
               <span v-if="chboxCursoCodigo">{{mensaje.clonacion}}<br><br></span>
-              <span v-if="chboxPlanillaFila">{{mensaje.planillaFilas}}<br><br></span>
+              <span v-if="chboxPlanillaFila">
+                {{mensaje.planillaFilas}}
+                <span v-html="enlacePlanilla"></span>
+                <span>{{this.mensaje.filas}}</span>
+                <br><br>
+              </span>
               <span v-if="chboxDespachoInvitaciones">{{mensaje.despachoInvitaciones}}<br><br></span>
               <span v-if="chboxClaseSincronica">{{mensaje.linkClase}}<br><br></span>
               <span v-if="chboxBloqueSence">{{mensaje.bloqueSence}}<br><br></span>
@@ -163,6 +169,7 @@ export default {
   },
   data() {
     return {
+      enlacePlanilla: '',
       mostrarBotoneraPlanillas: false,
       portapapeles: '',
       nombreCurso: '',
@@ -216,7 +223,7 @@ export default {
         50: '50',
       },
       planillas: {
-        'Despacho Hipobaria': 'https//',
+        'Despacho Hipobaria': 'https://fontdrop.info/',
       },
     };
   },
@@ -311,9 +318,13 @@ export default {
       this.mensaje.genero = this.coordinadores[this.coordinadorSeleccionado] || this.genero;
       this.mensaje.estimado = `Estimad${this.mensaje.genero} ${this.coordinadorSeleccionado}`;
       this.mensaje.clonacion = this.chboxCursoCodigo ? `■ Se clonó el curso "${this.nombreCurso}", código ${this.codigoCurso}.` : '';
-      this.mensaje.planillaFilas = this.chboxPlanillaFila ? `■ Se realizó la carga de los participantes de la planilla ${this.planilla}, filas ${this.filaX} a ${this.filaY}.` : '';
-      if (!this.filaX && !this.filaY) this.mensaje.planillaFilas = `■ Se realizó la carga de los participantes de la planilla ${this.planilla}.`;
-      if (this.filaX && !this.filaY) this.mensaje.planillaFilas = `■ Se realizó la carga del participante de la planilla ${this.planilla}, fila ${this.filaX}.`;
+      this.mensaje.planillaFilas = this.chboxPlanillaFila ? '■ Se realizó la carga de los participantes de la planilla ' : '';
+      this.mensaje.filas = (this.filaX && this.filaY) ? `, filas ${this.filaX} a ${this.filaY}.` : '';
+      if (!this.filaX && !this.filaY) this.mensaje.planillaFilas = '■ Se realizó la carga de los participantes de la planilla ';
+      if (this.filaX && !this.filaY) {
+        this.mensaje.planillaFilas = '■ Se realizó la carga del participante de la planilla ';
+        this.mensaje.filas = `, fila ${this.filaX}.`;
+      }
       this.mensaje.despachoInvitaciones = this.chboxDespachoInvitaciones ? '■ Se despacharon las invitaciones por correo con las credenciales de acceso.' : '';
       this.mensaje.linkClase = this.chboxClaseSincronica ? '■ Se actualizó el link de la clase sincrónica.' : '';
       this.mensaje.bloqueSence = this.chboxBloqueSence ? '■ Se habilitó el bloque SENCE' : '';
@@ -321,9 +332,24 @@ export default {
       this.mensaje.atte = 'Atentamente,';
       this.mensaje.agente = `${this.agenteSeleccionado}, soporte TIPU`;
     },
+    previousPageCoordinador(coordinador) {
+      this.coordinadorSeleccionado = coordinador;
+    },
+    crearEnlace(valor) {
+      if (valor in this.planillas) {
+        const enlace = this.planillas[valor];
+        this.enlacePlanilla = `<a href="${enlace}">${valor}</a>`;
+      } else {
+        this.enlacePlanilla = valor;
+      }
+    },
+    seleccionarPlanilla(e) {
+      this.planilla = e.target.innerHTML;
+    },
   },
   mounted() {
     this.leerPortapapeles();
+    this.previousPageCoordinador(this.$root.$coordinadorActivo);
   },
   computed: {
     obtenerGenero() {
@@ -331,6 +357,11 @@ export default {
     },
     hasen() {
       return this.first_message();
+    },
+  },
+  watch: {
+    planilla() {
+      this.crearEnlace(this.planilla);
     },
   },
 };

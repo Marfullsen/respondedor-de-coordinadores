@@ -235,6 +235,9 @@ export default {
       this.mensaje.atte = 'Atentamente';
       this.mensaje.agente = `${this.agenteSeleccionado}, soporte TIPU`;
     },
+    changeGlobalCoordinador(coordinador) {
+      this.$root.$coordinadorActivo = coordinador;
+    },
   },
   computed: {
     obtenerGenero() {
@@ -242,6 +245,11 @@ export default {
     },
     hasen() {
       return this.first_message();
+    },
+  },
+  watch: {
+    coordinadorSeleccionado() {
+      this.changeGlobalCoordinador(this.coordinadorSeleccionado);
     },
   },
 };
