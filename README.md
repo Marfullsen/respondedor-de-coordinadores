@@ -35,6 +35,10 @@ Ver [referencia de configuración](https://cli.vuejs.org/config/).
 ## Recursos
 - Instalar fuentes manualmente en Vue-CLI [https://reactgo.com/add-fonts-vue-app/](https://reactgo.com/add-fonts-vue-app/)
 - Inspeccionar archivos de fuentes online [https://fontdrop.info/](https://fontdrop.info/)
-- Simple-Line-Icons
+- [Simple-Line-Icons](https://github.com/thesabbir/simple-line-icons)
+- Background photo: [Dune du Pilat](https://unsplash.com/photos/S0sD0DbArgk) by Matt Mariannelli.
+- Mockup by [Screenshot Rocks!](https://screenshot.rocks/).
+- [Text Reader with Vue](https://codesandbox.io/s/4p0k1xly4).
+- [Drag&Drop with Vue](https://codepen.io/stenvdb/pen/wvBoYQO).
 
 <img src="./docs/img/robot_soporte_tipu.png" alt="Soporte TIPU">

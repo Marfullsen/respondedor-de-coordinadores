@@ -7,7 +7,7 @@
       Bienvenido al respondedor de mensajes de coordinadores TIPU.<br>
     </p>
     <img alt="Bad_Robot_Tipu" style="width: 150px" src="../assets/robot-tipu-alone.png">
-    <h2>Enlaces disponibles</h2>
+    <h2 style="margin-top: 0;">Enlaces disponibles</h2>
     <ul>
       <li>Inicio</li>
       <li><router-link to="/tardaremos_tanto">Tardademos Tanto</router-link></li>

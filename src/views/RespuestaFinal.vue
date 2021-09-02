@@ -1,7 +1,11 @@
 <template>
   <div>
     <h1 style="margin-bottom: 0;" @click="uncheckAll">Respuesta final</h1>
-    <p style="margin-top: 5px; margin-bottom: 5px;"><span class="icon-speech"></span></p>
+    <p style="margin-top: 5px; margin-bottom: 5px;">
+      <router-link style="text-decoration: none;" to="/datos_globales">
+        <span class="icon-speech"></span>
+      </router-link>
+    </p>
     <hr>
     <article>
       <h1 @click="toggleCheckAll">Estimado/a</h1>
@@ -231,17 +235,10 @@ export default {
       const cleanedClipboard = this.portapapeles.replace(/\r/gm, '');
       const rango = cleanedClipboard.match(/\n/g) || [];
       const splitted = cleanedClipboard.split(separador);
-      console.log(rango.length);
       if (rango.length) {
-        console.log('a');
         this.filaX = splitted.at(0);
         this.filaY = splitted.slice(-1);
-        console.log(splitted.at(0));
-        console.log(splitted.slice(-1));
-        console.log(this.filaX);
-        console.log(this.filaY);
       } else {
-        console.log('B');
         this.filaX = this.portapapeles;
       }
     },

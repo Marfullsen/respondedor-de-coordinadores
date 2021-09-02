@@ -29,13 +29,15 @@
             </span>
           </span>
         </div>
-        <textarea v-show="texto" v-model="texto" readonly
-        style="width: 60%; height: 200px; text-align:center;"
-        :style="borderColor"
-        placeholder='{ "Nombre": "URL",
+        <div>
+          <textarea v-show="texto" v-model="texto" readonly
+          style="width: 60%; height: 200px; text-align:center; color: #299a5c; margin-bottom: 1em;"
+          :style="borderColor"
+          placeholder='{ "Nombre": "URL",
   "Nombre 2": "URL",
   "Nombre 3": "URL", }'
-        ></textarea>
+          ></textarea>
+        </div>
       </div>
     </article>
   </div>
@@ -91,7 +93,7 @@ export default {
     embellecer(texto) {
       let planillas = '';
       Object.keys(texto).forEach((planilla) => {
-        planillas += (`✓ ${planilla}\n`);
+        planillas += (`✓ ${planilla} - ¡CARGADA!\n`);
       });
       this.texto = planillas;
     },
