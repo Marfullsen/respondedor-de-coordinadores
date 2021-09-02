@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
 import TardaremosTanto from '../views/TardaremosTanto.vue';
 import RespuestaFinal from '../views/RespuestaFinal.vue';
+import DatosGlobales from '../views/DatosGlobales.vue';
 import AboutMe from '../views/AboutMe.vue';
 import NotFound from '../components/NotFound.vue';
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/respuesta_final',
     name: 'RespuestaFinal',
     component: RespuestaFinal,
+  },
+  {
+    path: '/datos_globales',
+    name: 'DatosGlobales',
+    component: DatosGlobales,
   },
   {
     path: '/about',

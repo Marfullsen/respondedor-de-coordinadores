@@ -36,7 +36,7 @@
         <input v-model="planilla" @contextmenu.prevent="pegarAqui($event)"
           type="text" placeholder="Planilla">
         <label for="chboxPlanillaFila">&nbsp;&nbsp;filas &nbsp;&nbsp;</label>
-        <input v-model="filaX" @contextmenu.prevent="pegarAqui($event)"
+        <input v-model="filaX" @contextmenu.prevent="obtenerRango()"
          type="text" placeholder="FilaX">
         <label for="chboxPlanillaFila">&nbsp;&nbsp;a&nbsp;&nbsp;</label>
         <input v-model="filaY" @contextmenu.prevent="pegarAqui($event)"
@@ -225,6 +225,26 @@ export default {
     };
   },
   methods: {
+    obtenerRango() {
+      this.leerPortapapeles();
+      const separador = '\n';
+      const cleanedClipboard = this.portapapeles.replace(/\r/gm, '');
+      const rango = cleanedClipboard.match(/\n/g) || [];
+      const splitted = cleanedClipboard.split(separador);
+      console.log(rango.length);
+      if (rango.length) {
+        console.log('a');
+        this.filaX = splitted.at(0);
+        this.filaY = splitted.slice(-1);
+        console.log(splitted.at(0));
+        console.log(splitted.slice(-1));
+        console.log(this.filaX);
+        console.log(this.filaY);
+      } else {
+        console.log('B');
+        this.filaX = this.portapapeles;
+      }
+    },
     pegarAqui(e) {
       this.leerPortapapeles();
       e.target.value = this.portapapeles;
@@ -271,6 +291,7 @@ export default {
           })
           .catch(() => 'Error');
       } else {
+        // eslint-disable-next-line
         alert('Acceso al portapapeles no soportado.');
       }
     },
@@ -342,9 +363,13 @@ export default {
     seleccionarPlanilla(e) {
       this.planilla = e.target.innerHTML;
     },
+    leerPlanilla() {
+      this.planillas = this.$root.$planillasJson;
+    },
   },
   mounted() {
     this.leerPortapapeles();
+    this.leerPlanilla();
     this.previousPageCoordinador(this.$root.$coordinadorActivo);
   },
   computed: {

@@ -115,7 +115,7 @@ export default {
       textoBtnCopiar: '',
       coordinadorSeleccionado: 'coordinador',
       agenteSeleccionado: 'Francisco',
-      inputNumPedido: '700',
+      inputNumPedido: '',
       inputMinutos: '30',
       genero: 'o',
       agentes: this.$agentes,

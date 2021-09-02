@@ -12,6 +12,7 @@
       <li>Inicio</li>
       <li><router-link to="/tardaremos_tanto">Tardademos Tanto</router-link></li>
       <li><router-link to="/respuesta_final">Respuesta final</router-link></li>
+      <li><router-link to="/datos_globales">Datos Globales</router-link></li>
       <li><router-link to="/about">¿Quienes somos?</router-link></li>
     </ul>
   </div>
