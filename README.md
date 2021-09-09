@@ -68,6 +68,11 @@ npm run lint
 ### Personalizar la configuración
 Ver [referencia de configuración](https://cli.vuejs.org/config/).
 
+### Recomendaciones al subir a Github Pages
+Es altamente recomendado crear **una copia** del archivo **index.html** renombrando la copia a **404.html** 
+
+De esa manera se el enrutamiento del sitio no se verá afectado al intentar acceder mediante url.
+
 ## Capturas de pantalla.
 
 Mockup que dió inicio al proyecto.
