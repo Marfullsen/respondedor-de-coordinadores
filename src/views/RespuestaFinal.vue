@@ -363,11 +363,18 @@ export default {
     leerPlanilla() {
       this.planillas = this.$root.$planillasJson;
     },
+    buscarPlanillasPrevias() {
+      const datosAlmacenados = localStorage.getItem('planillas');
+      if (datosAlmacenados) {
+        this.planillas = JSON.parse(datosAlmacenados);
+      }
+    },
   },
   mounted() {
     this.leerPortapapeles();
     this.leerPlanilla();
     this.previousPageCoordinador(this.$root.$coordinadorActivo);
+    this.buscarPlanillasPrevias();
   },
   computed: {
     obtenerGenero() {

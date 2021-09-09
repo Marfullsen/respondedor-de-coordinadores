@@ -66,6 +66,7 @@ export default {
     },
     globalizarDatos(datos) {
       try {
+        localStorage.setItem('planillas', datos);
         const datosJsonificados = JSON.parse(datos);
         this.$root.$planillasJson = datosJsonificados;
         this.embellecer(datosJsonificados);
